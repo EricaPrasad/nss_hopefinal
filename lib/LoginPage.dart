@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:task_nss/screens/home/event/go_event.dart';
 import 'package:task_nss/screens/home/home.dart';
+
+import 'models/task.dart';
 
 void main() {
   runApp(MyApp());
@@ -76,7 +79,7 @@ class LoginPage extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(userName: 'Tanisha'), // Pass the user's name here
+                      builder: (context) => HomePage(name: 'Tanisha'), // Pass the user's name here
                     ),
                   );
                 } else {
@@ -178,10 +181,10 @@ class SignUpPage extends StatelessWidget {
                 String email = emailController.text;
                 String password = passwordController.text;
                 if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(userName: name),
+                      builder: (context) => HomePage(name: name),
                     ),
                   );
                 } else {
@@ -214,30 +217,126 @@ class SignUpPage extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  final String userName;
+  final String name;
 
-  HomePage({required this.userName});
+  HomePage({required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome'),
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(), // Call _buildAppBar method
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          event(), // Display the event widget
+          SizedBox(height: 20),
+          Container(
+            padding: EdgeInsets.all(15),
+            child: Text(
+              'TASKS',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 10),
+          _buildTaskGrid(context), // Display the grid of tasks
+        ],
       ),
-      body: Center(
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      title: Row(
+        children: [
+          Container(
+            height: 45,
+            width: 45,
+            // child: ClipRRect(
+            //   borderRadius: BorderRadius.circular(10),
+            //   child: Image.asset('assets/images/nss.jpeg'), // Add user's profile image here
+            // ),
+          ),
+          SizedBox(width: 10),
+          Text(
+            'HI, $name!', // Display user's name here
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      ),
+      actions: [
+        Icon(
+          Icons.more_vert,
+          color: Colors.black,
+          size: 40,
+        )
+      ],
+    );
+  }
+
+  Widget _buildTaskGrid(BuildContext context) {
+    List<Task> tasks = Task.generateTask();
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10.0,
+          crossAxisSpacing: 10.0,
+          childAspectRatio: 1.0,
+        ),
+        itemCount: tasks.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _buildTaskBox(context, tasks[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildTaskBox(BuildContext context, Task task) {
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the desired page based on the task
+        if (task.title == 'ATTENDANCE') {
+          Navigator.pushNamed(context, '/attendance');
+        } else if (task.title == 'ACTIVITY TRACKER') {
+          Navigator.pushNamed(context, '/activity_tracker');
+        } else if (task.title == 'BLOOD DONATION MANAGEMENT') {
+          Navigator.pushNamed(context, '/blood_donation');
+        } else if (task.title == 'FEEDBACK') {
+          Navigator.pushNamed(context, '/feedback');
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: task.bgColor ?? Colors.grey,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Hi $userName!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          children: [
+            Icon(
+              task.iconData ?? Icons.error,
+              color: task.iconColor ?? Colors.white,
+              size: 50,
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Add functionality to proceed to the next step
-              },
-              child: Text('Let\'s get started'),
+            SizedBox(height: 10),
+            Text(
+              task.title ?? 'No Title',
+              style: TextStyle(
+                color: task.iconColor ?? Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16, // Increased font size
+              ),
+              textAlign: TextAlign.center, // Center aligned text
             ),
           ],
         ),
