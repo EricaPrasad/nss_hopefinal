@@ -51,7 +51,7 @@ class LoginPage extends StatelessWidget {
             child: TextFormField(
               controller: emailController,
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: 'Username',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -87,7 +87,7 @@ class LoginPage extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text('Error'),
-                      content: Text('Please enter email and password.'),
+                      content: Text('Please enter username and password.'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
