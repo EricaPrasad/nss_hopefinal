@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task_nss/constants/colour.dart';
 import 'package:task_nss/models/task.dart';
+
 import 'event/go_event.dart';
+import 'contact_us_page.dart'; // Import the ContactUsPage widget
 
 class HomePage extends StatelessWidget {
   final String userName; // Add userName parameter
@@ -12,7 +13,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(), // Call _buildAppBar method
+      appBar: _buildAppBar(context), // Call _buildAppBar method
+      endDrawer: _buildDrawer(context), // Use endDrawer for right-side drawer
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,20 +34,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar() {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
       title: Row(
         children: [
-          Container(
-            height: 45,
-            width: 45,
-            // child: ClipRRect(
-            //   borderRadius: BorderRadius.circular(10),
-            //   child: Image.asset('assets/images/nss.jpeg'), // Add user's profile image here
-            // ),
-          ),
+          Icon(Icons.account_circle),
           SizedBox(width: 10),
           Text(
             'HI, $userName!', // Display user's name here
@@ -58,12 +53,54 @@ class HomePage extends StatelessWidget {
         ],
       ),
       actions: [
-        Icon(
-          Icons.more_vert,
-          color: Colors.black,
-          size: 40,
-        )
+        Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () {
+              Scaffold.of(context).openEndDrawer();
+            },
+          ),
+        ),
       ],
+    );
+  }
+
+  Drawer _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 10),
+                Text(
+                  'HI, $userName!', // Display user's name here
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.contact_support),
+            title: Text('Contact Us'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ContactUsPage()),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
