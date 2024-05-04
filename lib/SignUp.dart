@@ -133,7 +133,6 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -172,15 +171,14 @@ class _SignUpFormState extends State<SignUpForm> {
             obscureText: true,
           ),
           SizedBox(height: 16.0),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                signUp(context);
-              });
+          Builder(
+            builder: (BuildContext context) {
+              return ElevatedButton(
+                onPressed: () => signUp(context), // Pass the context
+                child: Text('Sign Up'),
+              );
             },
-            child: Text('Sign Up'),
           ),
-
         ],
       ),
     );
