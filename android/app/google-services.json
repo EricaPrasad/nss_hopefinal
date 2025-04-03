@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "142651066073",
+    "project_id": "nss-community-connect",
+    "storage_bucket": "nss-community-connect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142651066073:android:5858e465ee97df0d1320c8",
+        "android_client_info": {
+          "package_name": "com.example.task_nss"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-KaqvR0_n04daw8JEJe-qQO55kuT2cJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

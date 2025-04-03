@@ -3,6 +3,7 @@ import 'package:task_nss/models/task.dart';
 
 import 'event/go_event.dart';
 import 'contact_us_page.dart'; // Import the ContactUsPage widget
+import 'LoginPage.dart'; // Import the LoginPage widget
 
 class HomePage extends StatelessWidget {
   final String userName; // Add userName parameter
@@ -97,6 +98,13 @@ class HomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => ContactUsPage()),
               );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text('Sign Out'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/login');
             },
           ),
         ],

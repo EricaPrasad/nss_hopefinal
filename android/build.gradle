@@ -1,10 +1,16 @@
+buildscript{
+    repositories{
+        google()
+        jcenter()
+    }
+}
+
 allprojects {
-    repositories {
+    repositories{
         google()
         mavenCentral()
     }
 }
-
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
